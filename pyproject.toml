@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bc_uidgen"
+version = "0.0.1"
+authors = [
+  { name="Brandon Chastain", email="brandonchastain@gmail.com" },
+]
+description = "A unique ID generator library."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/brandonchastain/uidgen"
+Issues = "https://github.com/brandonchastain/uidgen/issues"

@@ -6,19 +6,21 @@ class UidGen:
         self.ids = dict()
 
     def makeUid(self) -> int:
-        ts = time.time()
+        ts = time.time_ns() // 1_000_000
         systemname = socket.gethostname()
+        h = hash(systemname)
 
         ts_embed = int(ts) & (0xFFFFFFFF)
-        name_embed = (hash(systemname) & (0xFF00)) >> 8
+        name_embed = h & 0xFFFFFF
         
         if not ts_embed in self.ids:
             self.ids[ts_embed] = 0
         seqno = self.ids[ts_embed]
 
-        res = ts_embed << 32
-        res |= (name_embed << 8)
-        res |= (seqno & (0xFF))
+        res = 0
+        res |= ts_embed << 48
+        res |= (name_embed << 20)
+        res |= (seqno & (0xFFFFFF))
 
         self.ids[ts_embed] = seqno + 1
 
@@ -27,14 +29,21 @@ class UidGen:
 gen = UidGen()
 
 ids = set()
-
+starttime = time.time()
+count = 0
 error = False
 while not error:
     uid = gen.makeUid()
     if uid in ids:
         error = True
-        print("Error: generated duplicate id %s" % (uid))
+        print("Error: generated duplicate id %s" % (bin(uid)))
     ids.add(uid)
-    print(uid)
-    time.sleep(0.01)
+    print(bin(uid))
+    count += 1
+    time.sleep(0.00001)
+    endtime = time.time()
+    if endtime - starttime >= 5:
+        break
+
+print("%s items" % (count))
     
