@@ -38,11 +38,11 @@ while not error:
         error = True
         print("Error: generated duplicate id %s" % (bin(uid)))
     ids.add(uid)
-    print(bin(uid))
+    #print(bin(uid))
     count += 1
-    time.sleep(0.00001)
+    #time.sleep(0.00000006)
     endtime = time.time()
-    if endtime - starttime >= 5:
+    if endtime - starttime >= 10:
         break
 
 print("%s items" % (count))
